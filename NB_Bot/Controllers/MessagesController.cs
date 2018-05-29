@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using NB_Bot.Dialogs;
 
 namespace NB_Bot
 {
@@ -18,7 +19,7 @@ namespace NB_Bot
         {
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.GreetingDialog());
+                await Conversation.SendAsync(activity, () => HotelBotDialog.dialog);
             }
             else
             {

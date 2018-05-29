@@ -14,7 +14,25 @@ namespace NB_Bot.Dialogs
         public async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync("Hi, I'm NB Bot!");
+            await Respond(context);
+
             context.Wait(MessageReceiveAsync);
+        }
+
+        private static async Task Respond(IDialogContext context)
+        {
+            var userName = string.Empty;
+            context.UserData.TryGetValue<string>("Name", out userName);
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                await context.PostAsync("What is your name?");
+                context.UserData.SetValue<bool>("GetName", true);
+            }
+            else
+            {
+                await context.PostAsync(string.Format("Hi {0}. How can I help you today?", userName));
+            }
         }
 
         private async Task MessageReceiveAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
@@ -33,16 +51,8 @@ namespace NB_Bot.Dialogs
                 context.UserData.SetValue<bool>("GetName", false);
             }
 
-            if (string.IsNullOrEmpty(userName))
-            {
-                await context.PostAsync("What is your name?");
-                context.UserData.SetValue<bool>("GetName", true);
-            }
-            else
-            {
-                await context.PostAsync(String.Format("Hi {0}, How can I help you today?", userName));
-            }
-            context.Wait(MessageReceiveAsync);
+            await Respond(context);
+            context.Done(message);
         }
     }
 }
