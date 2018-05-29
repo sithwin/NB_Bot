@@ -31,7 +31,7 @@ namespace NB_Bot.Dialogs
             var token = await item;
             var name = "User";
             context.UserData.TryGetValue<string>("Name", out name);
-            return Chain.Return($"Thank you for using the hotel bot: {name}");
+            return Chain.Return($"Thank you for using the hotel bot {name}!!");
         }
 
     }
