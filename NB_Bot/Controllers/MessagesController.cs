@@ -12,7 +12,7 @@ namespace NB_Bot
     {
         /// <summary>
         /// POST: api/Messages
-        /// Receive a message from a user and reply to it afsdaf
+        /// Receive a message from a user and reply to it
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
