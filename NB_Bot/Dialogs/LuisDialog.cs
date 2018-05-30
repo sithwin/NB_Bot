@@ -41,13 +41,13 @@ namespace NB_Bot.Dialogs
         }
 
         [LuisIntent("Reservation")]
-        public async Task RoomReservation(IDialogContext context, LuisResult result)
+        public async Task Reservation(IDialogContext context, LuisResult result)
         {
             var enrollmentForm = new FormDialog<RoomReservation>(new RoomReservation(), this.ReserveRoom, FormOptions.PromptInStart);
             context.Call<RoomReservation>(enrollmentForm, Callback);
         }
 
-        [LuisIntent("Query Amenities")]
+        [LuisIntent("QueryAmenities")]
         public async Task QueryAmenities(IDialogContext context, LuisResult result)
         {
             foreach (var entity in result.Entities.Where(Entity => Entity.Type == "Amenity"))
