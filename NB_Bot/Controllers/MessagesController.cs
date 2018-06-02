@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using NB_Bot.Dialogs;
+using NB_Bot.Models;
 
 namespace NB_Bot
 {
@@ -18,7 +21,7 @@ namespace NB_Bot
         {
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+                await Conversation.SendAsync(activity, MakeLuisDIalog);
             }
             else
             {
@@ -26,6 +29,11 @@ namespace NB_Bot
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        private IDialog<RoomReservation> MakeLuisDIalog()
+        {
+            return Chain.From(() => new LuisDialog(RoomReservation.BuildForm));
         }
 
         private Activity HandleSystemMessage(Activity message)
